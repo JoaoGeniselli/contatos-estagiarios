@@ -14,7 +14,8 @@ class ListaDeContatosRecyclerViewAdapter(
 ) : RecyclerView.Adapter<ListaDeContatosViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListaDeContatosViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.lista_de_contatos_item, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.lista_de_contatos_item, parent, false)
         return ListaDeContatosViewHolder(view, contatoSelecionado)
     }
 

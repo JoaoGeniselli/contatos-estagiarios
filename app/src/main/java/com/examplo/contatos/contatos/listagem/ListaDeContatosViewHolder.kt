@@ -11,10 +11,12 @@ class ListaDeContatosViewHolder(
 ) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(contato: Contato) {
-        itemView.image_view_foto_contato.setImageResource(contato.foto)
-        itemView.text_view_nome_contato.text = contato.nome
-        itemView.text_view_numero_contato.text = contato.telefone
-        itemView.setOnClickListener { contatoSelecionado(contato) }
+        itemView.apply {
+            image_view_foto_contato?.setImageResource(contato.foto)
+            text_view_nome_contato?.text = contato.nome
+            text_view_numero_contato?.text = contato.telefone
+            setOnClickListener { contatoSelecionado(contato) }
+        }
     }
 
 }

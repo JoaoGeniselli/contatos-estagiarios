@@ -39,11 +39,10 @@ class ListaDeContatosFragment : Fragment(R.layout.fragment_lista_de_contatos) {
     }
 
     private fun abrirDetalhesDoContato(contato: Contato) {
-        //TODO Passar extra pro outro fragment
-        val bundle = bundleOf(CONTATO_EXTRA_ID to contato)
+        val argumentos = bundleOf(CONTATO_EXTRA_ID to contato)
         parentFragmentManager.commit {
             addToBackStack(null)
-            replace<DetalhesDoContatoFragment>(R.id.fragment_container_view, args = bundle)
+            replace<DetalhesDoContatoFragment>(R.id.fragment_container_view, args = argumentos)
         }
     }
 
