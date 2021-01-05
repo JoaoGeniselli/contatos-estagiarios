@@ -8,11 +8,11 @@ abstract class APIContatos {
     companion object {
 
         fun obterAPIOficial(): APIContatos {
-            return APIContatosSimulada()
+            return APIContatosDoAndroid()
         }
 
         fun obterAPISimulada(): APIContatos {
-            return APIContatosDoAndroid()
+            return APIContatosSimulada()
         }
     }
 }
