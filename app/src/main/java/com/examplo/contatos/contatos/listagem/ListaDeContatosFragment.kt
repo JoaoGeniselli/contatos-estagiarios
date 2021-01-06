@@ -16,9 +16,8 @@ import kotlinx.android.synthetic.main.fragment_lista_de_contatos.*
 
 class ListaDeContatosFragment : Fragment(R.layout.fragment_lista_de_contatos) {
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         configurarListaDeContatos()
     }
 
@@ -35,7 +34,7 @@ class ListaDeContatosFragment : Fragment(R.layout.fragment_lista_de_contatos) {
     }
 
     private fun obterContatos(): List<Contato> {
-        return APIContatos.obterAPISimulada().listarContatos()
+        return APIContatos.obterAPIOficial().listarContatos()
     }
 
     private fun abrirDetalhesDoContato(contato: Contato) {
