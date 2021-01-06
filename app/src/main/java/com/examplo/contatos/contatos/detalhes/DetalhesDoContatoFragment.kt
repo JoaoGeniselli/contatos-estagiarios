@@ -1,5 +1,7 @@
 package com.examplo.contatos.contatos.detalhes
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -16,21 +18,32 @@ class DetalhesDoContatoFragment : Fragment(R.layout.fragment_detalhes_do_contato
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        configurarFotoDoContato()
-        configurarNomeDoContato()
-        configurarTelefoneDoContato()
+        preencherFotoDoContato()
+        preencherNomeDoContato()
+        preencherTelefoneDoContato()
+        configurarBotaoLigar()
     }
 
-    private fun configurarFotoDoContato() {
+    private fun preencherFotoDoContato() {
         image_view_foto_contato.setImageResource(contatoDetalhes.foto)
     }
 
-    private fun configurarNomeDoContato() {
+    private fun preencherNomeDoContato() {
         text_view_nome_contato.text = contatoDetalhes.nome
     }
 
-    private fun configurarTelefoneDoContato() {
+    private fun preencherTelefoneDoContato() {
         text_view_numero_contato.text = contatoDetalhes.telefone
     }
+
+    private fun configurarBotaoLigar() {
+        button_ligar.setOnClickListener {
+            val fazerLigacaoIntent = Intent(Intent.ACTION_DIAL).apply {
+                data = Uri.parse("tel:${contatoDetalhes.telefone}")
+            }
+            startActivity(fazerLigacaoIntent)
+        }
+    }
+
 
 }
