@@ -1,8 +1,10 @@
 package com.examplo.contatos
 
+import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.database.Cursor
 import android.provider.ContactsContract
+
 
 class APIContatosDoAndroid : APIContatos() {
 
@@ -31,8 +33,47 @@ class APIContatosDoAndroid : APIContatos() {
         return contatos
     }
 
+    //Precisa da permissão: Manifest.permission.WRITE_CONTACTS para funcionar
     override fun adicionarContato(nome: String, telefone: String) {
-        TODO("Not yet implemented")
+        val resolver = applicationContext?.contentResolver ?: return
+        val informacoesSobreConta =
+            ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
+                .build()
+
+        val informacoesSobreNome =
+            ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Contacts.Data.RAW_CONTACT_ID, 0)
+                .withValue(
+                    ContactsContract.Contacts.Data.MIMETYPE,
+                    ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
+                )
+                .withValue(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, nome)
+                .build()
+
+        val informacoesSobreNumero =
+            ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Contacts.Data.RAW_CONTACT_ID, 0)
+                .withValue(
+                    ContactsContract.Data.MIMETYPE,
+                    ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE
+                )
+                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, telefone)
+                .withValue(
+                    ContactsContract.CommonDataKinds.Phone.TYPE,
+                    ContactsContract.CommonDataKinds.Phone.TYPE_HOME
+                )
+                .build()
+
+        val todasInfomacoesDoContato =
+            arrayListOf(informacoesSobreConta, informacoesSobreNome, informacoesSobreNumero)
+
+        try {
+            resolver.applyBatch(ContactsContract.AUTHORITY, todasInfomacoesDoContato)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun ContentResolver.buscarPorContatos(): Cursor? {
